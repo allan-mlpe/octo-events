@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: octo-database
+    restart: always
+    volumes:
+      - "./data-directory:/data/db"
+    ports:
+      - "30017:27017"
+
+  app:
+    build:
+      context: .
+    container_name: octo-webhooks
+    expose:
+      - "7000"
+    ports:
+      - "8500:7000"
+    links:
+      - "mongodb:octo-db"
+    restart: always
